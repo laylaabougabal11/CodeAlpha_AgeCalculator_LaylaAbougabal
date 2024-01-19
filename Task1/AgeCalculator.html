@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 50px;
+      color: #2c3e50;
+    }
+
+    label {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #bdc3c7;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    #button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #result-container {
+      text-align: center;
+    }
+
+    #result {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Age Calculator</h1>
+    
+    <label for="dob">Enter your date of birth:</label>
+    <input type="date" id="dob">
+    <br>
+
+    <div id="button-container">
+      <button onclick="calculateAge()">Calculate Age</button>
+    </div>
+
+    <div id="result-container">
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      var dobInput = document.getElementById('dob').value;
+      var dob = new Date(dobInput);
+      var today = new Date();
+
+      if (isNaN(dob)) {
+        alert('Please enter a valid date of birth');
+        return;
+      }
+
+      var years = today.getFullYear() - dob.getFullYear();
+      var months = today.getMonth() - dob.getMonth();
+      var days = today.getDate() - dob.getDate();
+
+      if (days < 0) {
+        // Borrow a month's worth of days
+        months--;
+        var lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, dob.getDate());
+        days = (today - lastMonth) / (1000 * 60 * 60 * 24);
+      }
+
+      if (months < 0) {
+        // Borrow a year's worth of months
+        years--;
+        months += 12;
+      }
+
+      var ageString = '';
+      if (years > 0) {
+        ageString += years + (years === 1 ? ' year ' : ' years ');
+      }
+
+      if (months > 0) {
+        ageString += months + (months === 1 ? ' month ' : ' months ');
+      }
+
+      if (days > 0) {
+        ageString += days + (days === 1 ? ' day' : ' days');
+      }
+
+      document.getElementById('result').innerHTML = 'Your age is: ' + ageString;
+    }
+  </script>
+</body>
+</html>
